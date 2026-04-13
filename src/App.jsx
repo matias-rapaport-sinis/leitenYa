@@ -25,11 +25,17 @@ export default function App() {
     })
   }
 
-  const removeFromCart = (id) => setCart(prev => prev.filter(i => i.id !== id))
-  const updateQty = (id, delta) => setCart(prev => prev.map(i => i.id === id ? { ...i, qty: Math.max(1, i.qty + delta) } : i))
+  const removeFromCart = (id) => {
+    setCart(prev => prev.filter(i => i.id !== id))
+  }
+
+  const updateQty = (id, delta) => {
+    setCart(prev => prev.map(i => i.id === id ? { ...i, qty: Math.max(1, i.qty + delta) } : i))
+  }
 
   const total = cart.reduce((sum, i) => sum + i.price * i.qty, 0)
   const cartCount = cart.reduce((sum, i) => sum + i.qty, 0)
+
   const formatPrice = (p) => new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS', maximumFractionDigits: 0 }).format(p)
 
   return (
@@ -40,15 +46,29 @@ export default function App() {
             <span className="logo-icon">🏗️</span>
             <span className="logo-text">Leiten<span className="logo-accent">Ya</span></span>
           </div>
-          <div className="address">
-            <span className="address-icon">📍</span>
-            <div>
-              <div className="address-label">Entregamos en</div>
-              <div className="address-value">Buenos Aires, CABA</div>
+          <div className="header-info">
+            <div className="info-item">
+              <span className="info-icon">🕐</span>
+              <div>
+                <div className="info-label">Horario</div>
+                <div className="info-value">Lun a Vie · 7 a 17 hs</div>
+              </div>
+            </div>
+            <div className="info-item">
+              <span className="info-icon">📍</span>
+              <div>
+                <div className="info-label">Sucursal</div>
+                <div className="info-value">3 de Febrero 4456, Caseros</div>
+              </div>
             </div>
           </div>
           <div className="search-wrap">
-            <input className="search" placeholder="Buscar máquinas, hormigoneras, elevadores..." value={search} onChange={e => setSearch(e.target.value)} />
+            <input
+              className="search"
+              placeholder="Buscar máquinas, hormigoneras, elevadores..."
+              value={search}
+              onChange={e => setSearch(e.target.value)}
+            />
           </div>
           <button className="cart-btn" onClick={() => setCartOpen(true)}>
             🛒 Carrito
@@ -65,11 +85,18 @@ export default function App() {
       </section>
 
       <nav className="categories">
-        <button className={`cat-chip ${selectedCategory === 'all' ? 'active' : ''}`} onClick={() => setSelectedCategory('all')}>
+        <button
+          className={`cat-chip ${selectedCategory === 'all' ? 'active' : ''}`}
+          onClick={() => setSelectedCategory('all')}
+        >
           <span>🧰</span> Todos
         </button>
         {categories.map(c => (
-          <button key={c.id} className={`cat-chip ${selectedCategory === c.id ? 'active' : ''}`} onClick={() => setSelectedCategory(c.id)}>
+          <button
+            key={c.id}
+            className={`cat-chip ${selectedCategory === c.id ? 'active' : ''}`}
+            onClick={() => setSelectedCategory(c.id)}
+          >
             <span>{c.icon}</span> {c.name}
           </button>
         ))}
@@ -99,7 +126,9 @@ export default function App() {
             </article>
           ))}
         </div>
-        {filtered.length === 0 && <div className="empty">No encontramos productos 🔍</div>}
+        {filtered.length === 0 && (
+          <div className="empty">No encontramos productos 🔍</div>
+        )}
       </main>
 
       {cartOpen && (
@@ -111,7 +140,10 @@ export default function App() {
               <button className="close" onClick={() => setCartOpen(false)}>✕</button>
             </div>
             {cart.length === 0 ? (
-              <div className="empty-cart"><div style={{ fontSize: 48 }}>🛒</div><p>Tu carrito está vacío</p></div>
+              <div className="empty-cart">
+                <div style={{ fontSize: 48 }}>🛒</div>
+                <p>Tu carrito está vacío</p>
+              </div>
             ) : (
               <>
                 <div className="cart-list">
@@ -132,8 +164,13 @@ export default function App() {
                   ))}
                 </div>
                 <div className="drawer-footer">
-                  <div className="total-row"><span>Total</span><strong>{formatPrice(total)}</strong></div>
-                  <button className="checkout-btn" onClick={() => alert('¡Gracias por tu pedido en LeitenYa! 🏗️')}>Finalizar pedido</button>
+                  <div className="total-row">
+                    <span>Total</span>
+                    <strong>{formatPrice(total)}</strong>
+                  </div>
+                  <button className="checkout-btn" onClick={() => alert('¡Gracias por tu pedido en LeitenYa! 🏗️')}>
+                    Finalizar pedido
+                  </button>
                 </div>
               </>
             )}
@@ -141,7 +178,9 @@ export default function App() {
         </>
       )}
 
-      <footer className="footer"><p>LeitenYa © 2026 — Demo inspirado en leiten.com.ar · Hecho con React</p></footer>
+      <footer className="footer">
+        <p>LeitenYa © 2026 — Demo inspirado en leiten.com.ar · Hecho con React</p>
+      </footer>
     </div>
   )
 }
