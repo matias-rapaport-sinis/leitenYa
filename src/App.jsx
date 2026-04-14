@@ -1,11 +1,16 @@
 import { useState, useMemo } from 'react'
 import { products, categories } from './products'
+import { useAuth } from './AuthContext'
+import Login from './Login'
 
 export default function App() {
+  const { sessionId, user, logout } = useAuth()
   const [selectedCategory, setSelectedCategory] = useState('all')
   const [search, setSearch] = useState('')
   const [cart, setCart] = useState([])
   const [cartOpen, setCartOpen] = useState(false)
+
+  if (!sessionId) return <Login />
 
   const filtered = useMemo(() => {
     return products.filter(p => {
@@ -74,6 +79,10 @@ export default function App() {
             🛒 Carrito
             {cartCount > 0 && <span className="cart-badge">{cartCount}</span>}
           </button>
+          <div className="user-menu">
+            <span className="user-name">👤 {user?.codUsr}</span>
+            <button className="logout-btn" onClick={logout}>Salir</button>
+          </div>
         </div>
       </header>
 
